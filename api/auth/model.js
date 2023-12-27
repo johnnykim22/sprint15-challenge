@@ -9,3 +9,8 @@ const findById = async (id) => {
   const user = await db('users').where({ id: id }).first(); 
   return user
 };
+
+module.exports = {
+    createUser,
+    findById
+}
