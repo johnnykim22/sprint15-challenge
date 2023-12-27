@@ -1,18 +1,20 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Users = require('./model'); // Replace with your actual path to the model
-const saltRounds = 8;
-const secret = process.env.JWT_SECRET || "shh"; // Ensure you have JWT_SECRET in your environment variables
+const Users = require('./model'); // Make sure this path is correct
+
+// bcryptjs recommends a value of 12 for most secure hashes
+const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 8;
+const secret = process.env.JWT_SECRET || "shh"; // Fallback in case the environment variable is not set
 
 // Helper function to generate a token
 function generateToken(user) {
   const payload = {
-    subject: user.id, // subject is typically the user ID
-    username: user.username
+    subject: user.id,
+    username: user.username,
   };
   const options = {
-    expiresIn: '1h', // token valid for 1 hour
+    expiresIn: '1h',
   };
   return jwt.sign(payload, secret, options);
 }
@@ -31,11 +33,11 @@ router.post('/register', async (req, res) => {
 
   try {
     const hash = await bcrypt.hash(password, saltRounds);
-    const newUser = await Users.add({ username, password: hash });
+    const newUser = await Users.createUser(username, hash);
     res.status(201).json({
       id: newUser.id,
       username: newUser.username,
-      password: newUser.password // It's typically not recommended to send the password hash back
+      password: newUser.password // This should be omitted in production for security reasons
     });
   } catch (error) {
     if (error.code === "SQLITE_CONSTRAINT") {
@@ -54,7 +56,7 @@ router.post('/login', async (req, res) => {
   }
 
   try {
-    const user = await Users.findBy({ username }).first(); // Use 'first()' if expecting one record
+    const user = await Users.findByUsername(username);
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = generateToken(user);
       res.status(200).json({ message: `welcome, ${user.username}`, token });

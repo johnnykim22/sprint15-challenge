@@ -1,16 +1,20 @@
-const db = require("../../data/dbConfig")
+const db = require('../../data/dbConfig');
 
-const createUser = async (username,password) => {
-  const [id] = await db('users').insert({username,password})
+const createUser = async (username, password) => {
+  const [id] = await db('users').insert({ username, password });
   return findById(id);
 };
 
 const findById = async (id) => {
-  const user = await db('users').where({ id: id }).first(); 
-  return user
+  return await db('users').where({ id }).first();
+};
+
+const findByUsername = async (username) => {
+  return await db('users').where({ username }).first();
 };
 
 module.exports = {
-    createUser,
-    findById
-}
+  createUser,
+  findById,
+  findByUsername,
+};
