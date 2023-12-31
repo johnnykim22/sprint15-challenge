@@ -4,7 +4,7 @@ test('register',async()=>{
 
   //post to localhost:9000 , (username:test1,password:some password)
   ///response? {username:test1}
-let res1=await axios.post("http://localhost:9000/api/auth/register",
+let res1=await axios.post("/api/auth/register",
 {
   "username":"test13",
   "password":"12345"
@@ -20,7 +20,7 @@ test('Not allow duplicate user name',async()=>{
 
   //post to localhost:9000 , (username:test1,password:some password)
   ///response? {username:test1}
-let res1=await axios.post("http://localhost:9000/api/auth/register",
+let res1=await axios.post("/api/auth/register",
 {
   "username":"test13",
   "password":"12345"
