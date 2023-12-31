@@ -1,5 +1,5 @@
 const axios=require("axios")
-///add code to empty the database
+
 test('register',async()=>{
 
   //post to localhost:9000 , (username:test1,password:some password)
@@ -31,6 +31,3 @@ let res1=await axios.post("http://localhost:9000/api/auth/register",
  
 
 })
-///test coverage
-
-//QA - Database Admin - Coding reviewer 
