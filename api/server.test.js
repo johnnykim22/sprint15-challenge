@@ -6,11 +6,11 @@ test('register',async()=>{
   ///response? {username:test1}
 let res1=await axios.post("/api/auth/register",
 {
-  "username":"test13",
+  "username":"test22",
   "password":"12345"
 })
 
-  expect(res1.data.username).toBe("test13")
+  expect(res1.data.username).toBe("test22")
 
  
 
@@ -22,7 +22,7 @@ test('Not allow duplicate user name',async()=>{
   ///response? {username:test1}
 let res1=await axios.post("/api/auth/register",
 {
-  "username":"test13",
+  "username":"test22",
   "password":"12345"
 })
 
