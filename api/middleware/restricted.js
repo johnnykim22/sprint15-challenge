@@ -8,7 +8,7 @@ console.log(req.headers);
 console.log(token);
   if (token) {
     console.log('testing');
-    jwt.verify(token, , (err, decodedToken) => {
+    jwt.verify(token,  (err, decodedToken) => {
       console.log(err);
       if (err) {
         res.status(401).json({ message: "token invalid" });
