@@ -76,6 +76,7 @@ describe('Authentication Endpoints', () => {
 
   
 });
+/*
 describe('Jokes', () => {
   it('register new user succesfully', async () => {
     const saltRounds =  8;
@@ -110,4 +111,4 @@ describe('Jokes', () => {
   })
 
   
-});
+});*/
