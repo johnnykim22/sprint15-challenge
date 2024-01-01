@@ -4,9 +4,12 @@ const secret = process.env.JWT_SECRET || "shh"; // Consistency with the secret u
 
 function restricted(req, res, next) {
   const token = req.headers.authorization;
-
+  console.log(req.headers);
+  console.log(token);
   if (token) {
-    jwt.verify(token, secret, (err, decodedToken) => {
+    console.log('testing');
+    jwt.verify(token, secret, (err, decodedToken) => {  // Corrected line
+      console.log(err);
       if (err) {
         res.status(401).json({ message: "token invalid" });
       } else {
@@ -15,9 +18,9 @@ function restricted(req, res, next) {
       }
     });
   } else {
-    res.status(401).json({ message: "no token provided" });
+    console.log('HERE');
+    res.status(401).json({ message: "no token provided HERE" });
   }
 }
 
 module.exports = restricted;
-

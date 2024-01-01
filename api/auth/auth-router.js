@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const Users = require('./model'); // Make sure this path is correct
 
 // bcryptjs recommends a value of 12 for most secure hashes
-const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 8;
-const secret = process.env.JWT_SECRET || "shh"; // Fallback in case the environment variable is not set
+const saltRounds = 8;
+const secret =  "shh"; // Fallback in case the environment variable is not set
 
 // Helper function to generate a token
 function generateToken(user) {
@@ -32,6 +32,7 @@ router.post('/register', async (req, res) => {
   }
 
   try {
+    console.log(saltRounds)
     const hash = await bcrypt.hash(password, saltRounds);
     const newUser = await Users.createUser(username, hash);
     res.status(201).json({
@@ -57,6 +58,7 @@ router.post('/login', async (req, res) => {
 
   try {
     const user = await Users.findByUsername(username);
+    
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = generateToken(user);
       res.status(200).json({ message: `welcome, ${user.username}`, token });
